@@ -8,9 +8,22 @@ bc.print();
 // b.print();
 
 bc.addTransaction("A", "B", 100);
-bc.createBlock(2, "hash2");
+
+let previousHash = bc.getLastBlock().hash().toString("hex");
+let nonce = bc.proofOfWork();
+bc.createBlock(nonce, previousHash);
 bc.print();
+
 bc.addTransaction("C", "D", 1.0);
 bc.addTransaction("E", "F", 30.0);
-bc.createBlock(5, "hash3");
+previousHash = bc.getLastBlock().hash().toString("hex");
+nonce = bc.proofOfWork();
+bc.createBlock(nonce, previousHash);
+bc.print();
+
+bc.addTransaction("C", "D", 1.0);
+bc.addTransaction("E", "F", 30.0);
+previousHash = bc.getLastBlock().hash().toString("hex");
+nonce = bc.proofOfWork();
+bc.createBlock(nonce, previousHash);
 bc.print();

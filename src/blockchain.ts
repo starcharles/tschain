@@ -2,6 +2,7 @@ import {Block} from "./block";
 import {Transaction} from "./transaction";
 
 export class Blockchain {
+  MINING_DIFFILTY = 3;
   transactionPool: Transaction[] = [];
   chain: Block[] = [];
 
@@ -15,17 +16,15 @@ export class Blockchain {
     for (let i = 0; i < this.chain.length; i++) {
       const block = this.chain[i];
       console.log(`======================= Block${i} ===============================`);
-      console.log("nonce: ", block.nonce);
-      console.log("previousHash: ", block.previousHash);
-      console.log("txs: ", block.txs);
-      console.log("timestamp: ", block.timestamp);
+      block.print();
     }
     console.log("******************************************************************")
   }
 
   createBlock(nonce: number, previousHash: string): Block {
-    const b = new Block(nonce, previousHash, this.transactionPool , new Date().getTime());
+    const b = new Block(nonce, previousHash, this.transactionPool, new Date().getTime());
     this.chain.push(b);
+    this.transactionPool = [];
     return b
   }
 
@@ -39,4 +38,16 @@ export class Blockchain {
     return b;
   }
 
+  proofOfWork() {
+    let nonce = 0;
+    const previousHash = this.getLastBlock().hash().toString("hex");
+
+    for (; ; nonce++) {
+      const b = new Block(nonce, previousHash, this.transactionPool, new Date().getTime());
+      const blockHash = b.hash().toString("hex");
+      if(blockHash.slice(0, this.MINING_DIFFILTY) === "0".repeat(this.MINING_DIFFILTY)){
+        return nonce;
+      }
+    }
+  }
 }
