@@ -38,7 +38,7 @@
     "express-session": "^1.16.2",
     "forever": "^1.0.0",
     "helmet": "^3.21.1",
-    "log4js": "^3.0.6",
+    "log4js": "^6.4.0",
     "morgan": "^1.9.1",
     "mysql2": "^1.7.0",
     "node": "^10.16.3",
